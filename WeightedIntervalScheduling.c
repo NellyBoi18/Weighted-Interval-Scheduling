@@ -49,7 +49,12 @@ int main() {
         for (int j = 0; j < n; j++) {
             scanf("%d %d %d", &jobs[j].start, &jobs[j].end, &jobs[j].weight);
         }
-        printf("%d\n", schedule_jobs(jobs, n));
+        maxWeight[i] = schedule_jobs(jobs, n);
+        // printf("%d\n", schedule_jobs(jobs, n));
+    }
+
+    for (i = 0; i < t; i++) {
+        printf("%d\n", maxWeight[i]);
     }
 
     return 0;
