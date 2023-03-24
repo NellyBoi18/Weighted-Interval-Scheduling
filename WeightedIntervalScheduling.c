@@ -11,7 +11,7 @@ typedef struct job {
 } job;
 
 // Compare to sort jobs based on their end times in ascending order
-unsigned int compareJobs(const void *a, const void *b) {
+int compareJobs(const void *a, const void *b) {
     job *jobA = (job *) a;
     job *jobB = (job *) b;
     return jobA->end - jobB->end;
