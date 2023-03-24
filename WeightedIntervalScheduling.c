@@ -5,9 +5,9 @@
 
 // Struct to represent a job with start time, end time, and weight
 typedef struct job {
-    int start;
-    int end;
-    int weight;
+    unsigned int start;
+    unsigned int end;
+    unsigned int weight;
 } job;
 
 // Compare to sort jobs based on their end times in ascending order
@@ -19,10 +19,10 @@ int compareJobs(const void *a, const void *b) {
 
 // Schedule jobs and return the maximum weight of non-overlapping intervals
 int scheduleJobs(job *jobs, int numJobs) {
-    int maxWeight;
+    unsigned int maxWeight;
 
     // Array to store the maximum weight for each job i
-    int *jobMaxWeights = calloc(numJobs+1, sizeof(int));
+    unsigned int *jobMaxWeights = calloc(numJobs+1, sizeof(int));
 
     // Sort the jobs based on their end times in ascending order
     qsort(jobs, numJobs, sizeof(job), compareJobs);
@@ -59,7 +59,7 @@ int main() {
     scanf("%d", &numInstances);
 
     // Array to store the maximum weight for each instance
-    int *maxWeight = calloc(numInstances+1, sizeof(int));
+    unsigned int *maxWeight = calloc(numInstances+1, sizeof(int));
 
     for (int i = 0; i < numInstances; i++) {
         // Number of jobs for the current instance
@@ -67,7 +67,7 @@ int main() {
 
         // Start time, end time, and weight for each job
         for (int j = 0; j < numJobs; j++) {
-            scanf("%d %d %d", &jobs[j].start, &jobs[j].end, &jobs[j].weight);
+            scanf("%u %u %u", &jobs[j].start, &jobs[j].end, &jobs[j].weight);
         }
 
         // Schedule jobs and save max weight for the current instance to array
@@ -77,7 +77,7 @@ int main() {
 
     // Print max weight for each test case
     for (int i = 0; i < numInstances; i++) {
-        printf("%d\n", maxWeight[i]);
+        printf("%u\n", maxWeight[i]);
     }
 
     return 0;

@@ -22,3 +22,6 @@ For each instance, the program outputs the total weight of the intervals schedul
 5
 
 The sample input has two instances. The first instance has one job to schedule with a start time of 1, an end time of 4, and a weight of 5. The second instance has 3 jobs. 
+
+# Note:
+This program uses unsigned integers due to overflow on 32-bit signed integers in specific instances.
