@@ -10,7 +10,7 @@ typedef struct job {
     int weight;
 } job;
 
-// Comparison function to sort jobs based on their end times in ascending order
+// Compare to sort jobs based on their end times in ascending order
 int compareJobs(const void *a, const void *b) {
     job *jobA = (job *) a;
     job *jobB = (job *) b;
@@ -19,65 +19,63 @@ int compareJobs(const void *a, const void *b) {
 
 // Schedule jobs and return the maximum weight of non-overlapping intervals
 int scheduleJobs(job *jobs, int n) {
-    int i, j, max_weight;
+    int i, j, maxWeight;
 
-    // Allocate an array to store the maximum weight for each job i
-    int *dp = calloc(n+1, sizeof(int));
+    // Array to store the maximum weight for each job i
+    int *jobMaxWeights = calloc(n+1, sizeof(int));
 
     // Sort the jobs based on their end times in ascending order
     qsort(jobs, n, sizeof(job), compareJobs);
 
     for (i = 1; i <= n; i++) {
-        max_weight = jobs[i-1].weight;
+        maxWeight = jobs[i-1].weight;
 
         // Check all previous jobs j in reverse order to find the one that ends before the current job i starts
         for (j = i-1; j >= 1; j--) {
             if (jobs[j-1].end <= jobs[i-1].start) {
                 // If job j doesn't overlap with job i, add its maximum weight to the current job i and break out of the loop
-                max_weight += dp[j];
+                maxWeight += jobMaxWeights[j];
                 break;
             }
         }
 
-        // Set the maximum weight for job i to be the maximum of its previous maximum weight and its current maximum weight
-        dp[i] = (dp[i-1] > max_weight) ? dp[i-1] : max_weight;
+        // Set max weight for job i to be the maximum of its previous maximum weight and its current maximum weight
+        jobMaxWeights[i] = (jobMaxWeights[i-1] > maxWeight) ? jobMaxWeights[i-1] : maxWeight;
     }
 
-    // Save the maximum weight of the last job as the maximum weight of all non-overlapping intervals
-    max_weight = dp[n];
-    free(dp);
+    // Save max weight of the last job as the maximum weight
+    maxWeight = jobMaxWeights[n];
 
-    // Return the maximum weight of all non-overlapping intervals
-    return max_weight;
+    free(jobMaxWeights);
+
+    return maxWeight;
 }
 
 int main() {
     int t, n;
     job jobs[MAX_N];
     
-
-    // Read the number of test cases
+    // Number of instances
     scanf("%d", &t);
 
-    // Allocate an array to store the maximum weight of non-overlapping intervals for each test case
-    int maxWeight[t];
+    // Array to store the maximum weight for each instance
+    int *maxWeight = calloc(t+1, sizeof(int));
 
-    // Loop over all test cases
     for (int i = 0; i < t; i++) {
-        // Read the number of jobs for the current test case
+        // Number of jobs for the current instance
         scanf("%d", &n);
 
-        // Read the start time, end time and weight for each job
+        // Start time, end time, and weight for each job
         for (int j = 0; j < n; j++) {
             scanf("%d %d %d", &jobs[j].start, &jobs[j].end, &jobs[j].weight);
         }
 
-        // Schedule the jobs and save the maximum weight of all non-overlapping intervals for the current test case
+        // Schedule jobs and save max weight for the current instance to array
         maxWeight[i] = scheduleJobs(jobs, n);
         // printf("%d\n", scheduleJobs(jobs, n));
     }
 
-    // Print the maximum weight of non-overlapping intervals for each test case
+    // Print max weight for each test case
     for (int i = 0; i < t; i++) {
         printf("%d\n", maxWeight[i]);
     }
