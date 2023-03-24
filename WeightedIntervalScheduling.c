@@ -77,7 +77,7 @@ int main() {
 
     // Print max weight for each test case
     for (int i = 0; i < numInstances; i++) {
-        printf("%d\numJobs", maxWeight[i]);
+        printf("%d\n", maxWeight[i]);
     }
 
     return 0;
