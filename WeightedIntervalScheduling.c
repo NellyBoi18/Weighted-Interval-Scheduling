@@ -5,9 +5,9 @@
 
 // Struct to represent a job with start time, end time, and weight
 typedef struct job {
-    unsigned int start;
-    unsigned int end;
-    unsigned int weight;
+    long start;
+    long end;
+    long weight;
 } job;
 
 // Compare to sort jobs based on their end times in ascending order
@@ -18,20 +18,20 @@ int compareJobs(const void *a, const void *b) {
 }
 
 // Schedule jobs and return the maximum weight of non-overlapping intervals
-unsigned int scheduleJobs(job *jobs, unsigned int numJobs) {
-    unsigned int maxWeight;
+long scheduleJobs(job *jobs, long numJobs) {
+    long maxWeight;
 
     // Array to store the maximum weight for each job i
-    unsigned int *jobMaxWeights = calloc(numJobs+1, sizeof(int));
+    long *jobMaxWeights = calloc(numJobs+1, sizeof(int));
 
     // Sort the jobs based on their end times in ascending order
     qsort(jobs, numJobs, sizeof(job), compareJobs);
 
-    for (unsigned int i = 1; i <= numJobs; i++) {
+    for (long i = 1; i <= numJobs; i++) {
         maxWeight = jobs[i-1].weight;
 
         // Check all previous jobs j in reverse order to find the one that ends before the current job i starts
-        for (unsigned int j = i-1; j >= 1; j--) {
+        for (long j = i-1; j >= 1; j--) {
             if (jobs[j-1].end <= jobs[i-1].start) {
                 // If job j doesn't overlap with job i, add its maximum weight to the current job i and break out of the loop
                 maxWeight += jobMaxWeights[j];
@@ -52,32 +52,32 @@ unsigned int scheduleJobs(job *jobs, unsigned int numJobs) {
 }
 
 int main() {
-    unsigned int numInstances, numJobs;
+    long numInstances, numJobs;
     job jobs[MAX_N];
     
     // Number of instances
-    scanf("%d", &numInstances);
+    scanf("%ld", &numInstances);
 
     // Array to store the maximum weight for each instance
-    unsigned int *maxWeight = calloc(numInstances+1, sizeof(int));
+    long *maxWeight = calloc(numInstances+1, sizeof(int));
 
-    for (unsigned int i = 0; i < numInstances; i++) {
+    for (long i = 0; i < numInstances; i++) {
         // Number of jobs for the current instance
-        scanf("%d", &numJobs);
+        scanf("%ld", &numJobs);
 
         // Start time, end time, and weight for each job
-        for (unsigned int j = 0; j < numJobs; j++) {
-            scanf("%u %u %u", &jobs[j].start, &jobs[j].end, &jobs[j].weight);
+        for (long j = 0; j < numJobs; j++) {
+            scanf("%ld %ld %ld", &jobs[j].start, &jobs[j].end, &jobs[j].weight);
         }
 
         // Schedule jobs and save max weight for the current instance to array
         maxWeight[i] = scheduleJobs(jobs, numJobs);
-        // printf("%d\numJobs", scheduleJobs(jobs, numJobs));
+        // printf("%ld\numJobs", scheduleJobs(jobs, numJobs));
     }
 
     // Print max weight for each test case
-    for (unsigned int i = 0; i < numInstances; i++) {
-        printf("%u\n", maxWeight[i]);
+    for (long i = 0; i < numInstances; i++) {
+        printf("%ld\n", maxWeight[i]);
     }
 
     return 0;
